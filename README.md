@@ -5,3 +5,4 @@ Parsing DataTime from Special DataSet and Reading special period of time into Da
 <br>19504
 <br>Day code: digits 1-3 (day 1 = 1 January 2009)
 <br>digits 4-5 (half hour 1 - 48) 1= 00:00:00 – 00:29:59
+<br>This format of date usually Smart Meter Electricity Trial data.
