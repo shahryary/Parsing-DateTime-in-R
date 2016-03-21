@@ -1,12 +1,43 @@
-# Converting special date-time to TS 
+# Data preparation of the Commission for Energy Regulation (CER)'s Irish Smart Meter Trial data
+#   - http://www.ucd.ie/issda/data/commissionforenergyregulationcer/
 
+# Depend on your system it may be use long time
+# use system.time(X) to get reading time
+
+# Importing multi txt files into R ( Reading txt directory  
+# and import all of them as a data frame )
+# BEFORE IMPORT DO THIS IN YOUR CONSOLE 
+# DO this using "cat File1.txt File2.txt File3.txt File4.txt File5.txt File6.txt > catFiles.txt"
+
+setwd("/Volumes/DISK_IN/Projects/Fiverr_R_MADELINE_8303/files/")
+getwd()
+list.files()
+
+# catFiles.txt is large file(All records)- so we want to create our columns and reformating 
+# our data then we can export by as we want!
+temp = list.files(pattern="catFiles.txt")
+# loading catFiles.txt (more than gigbyte) to dataframe (mainData) 
+system.time(for (i in 1:length(temp)) assign("mainData", fread(temp[i] )))
+# renaming and sorting DF
+names(mainData)[1]<-"ID"
+names(mainData)[2]<-"timestamp"
+names(mainData)[3]<-"kWh"
+mainData <- mainData[with(mainData, order(ID, timestamp)),]
+setkeyv(mainData, "ID")
+head(mainData, n=10)
+
+# Converting special date-time to  standard format
+# This format of date usually Smart Meter Electricity Trial data.
+
+# After extracting you have records like this:
 # This is sample of Records
 # 1392 19503 0.14
 # 1392 19504 0.138
 # 1392 19505 0.14
 # 1392 19506 0.145
+# First column is house ID, second one is Date-time and last one is about energy usig in Kw/h
 
-# create real date/time variables ----
+# Create real date/time variables ----
 # For some reason the supplied timestamp is:
 # Day code: digits 1-3 (day 1 = 1 January 2009)
 #           digits 4-5 (half hour 1 - 48) 1= 00:00:00 – 00:29:59
